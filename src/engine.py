@@ -296,16 +296,12 @@ def build_pdf_enr_sem(
     b_name = re.search(rb'BT\s+0 Tr\s+/F3 18.720699 Tf\s+1 0 0.000000 -1 116.800003 675.359985 Tm.*?ET', decomp, re.DOTALL).group(0)
     # 2. Enr value
     b_enr = re.search(rb'BT\s+0 Tr\s+/F5 14.720600 Tf\s+1 0 0.000000 -1 239.520004 696.000000 Tm.*?ET', decomp, re.DOTALL).group(0)
-    # 3. Sem block: replace ONLY the 3rd Sem glyphs with spaces, PRESERVING CSE Department, IITM!
+    # 3. Sem block: redact old 3rd Sem block and re-inject with perfectly aligned CSE Department, IITM
     b_sem = re.search(rb'BT\s+0 Tr\s+/F5 14.720600 Tf\s+1 0 0.000000 -1 221.759995 714.239990 Tm.*?ET', decomp, re.DOTALL).group(0)
-
-    old_target = b'<0016><0055>-7.000000<0047><0003><0036>16.000000<0048>-7.000000<0050>7.000000'
-    new_target = b'<0003>' * 8 + b' ' * (len(old_target) - len(b'<0003>' * 8))
-    b_sem_clean = b_sem.replace(old_target, new_target)
 
     clean_decomp = decomp.replace(b_name, b'q Q ' + b' '*(len(b_name)-4))
     clean_decomp = clean_decomp.replace(b_enr, b'q Q ' + b' '*(len(b_enr)-4))
-    clean_decomp = clean_decomp.replace(b_sem, b_sem_clean)
+    clean_decomp = clean_decomp.replace(b_sem, b'q Q ' + b' '*(len(b_sem)-4))
 
     # In stream 45 coordinates: scale is 0.75, inverted Y
     # Center of SUBMITTED BY column = 168.60 / 0.75 = 224.8 pt
@@ -323,6 +319,12 @@ def build_pdf_enr_sem(
     name_str = encode_pdf_string(student_name).decode('latin1')
     enr_str = encode_pdf_string(enr_clean).decode('latin1')
     sem_str = encode_pdf_string(sem_clean).decode('latin1')
+
+    # CSE Department, IITM alignment:
+    # Java template original xMin in user space is 331.15 pt -> 441.54 in stream space
+    # DS template original xMin in user space is 333.91 pt -> 445.22 in stream space
+    dept_x = 441.54 if template_key == 'java_code' else 445.22
+    dept_text = "CSE Department, IITM"
 
     stream_inject = f'''
 q
@@ -344,6 +346,11 @@ BT
 /tiro 14.72 Tf
 1 0 0.000000 -1 224.00 714.24 Tm
 ({sem_str}) Tj
+ET
+BT
+/tiro 14.72 Tf
+1 0 0.000000 -1 {dept_x:.2f} 714.24 Tm
+({dept_text}) Tj
 ET
 Q
 '''.encode('latin1')
