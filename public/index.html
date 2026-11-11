@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FrontCraft — Instant College Practical Front Page Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['"Source Serif 4"', '"Playfair Display"', 'Times New Roman', 'serif'],
+            cinzel: ['Cinzel', 'serif']
+          },
+          colors: {
+            navy: {
+              800: '#111827',
+              900: '#0B132B',
+              accent: '#1e3a8a'
+            },
+            brandGold: '#c59b27'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #374151; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+    
+    .paper-shadow {
+      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header -->
+  <header class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 via-indigo-500 to-cyan-400 p-[1.5px] shadow-lg shadow-indigo-500/20">
+          <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="font-bold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-amber-200 bg-clip-text text-transparent">FrontCraft</span>
+            <span class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">IITM Edition</span>
+          </div>
+          <p class="text-[11px] text-slate-400 -mt-0.5">3rd Semester Practical Front Page Engine</p>
+        </div>
+      </div>
+
+      <!-- Quick stats / batch toggle -->
+      <div class="flex items-center space-x-2">
+        <div class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Vector Precision 100%</span>
+        </div>
+        <button id="batchModeBtn" onclick="toggleBatchModal(true)" class="text-xs font-semibold px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center space-x-1.5">
+          <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+          </svg>
+          <span>Batch Friend Mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Grid -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- Left Column: Generator Form Controls (5 cols) -->
+    <div class="lg:col-span-5 space-y-6">
+      
+      <!-- Card: Subject Template Selector -->
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl backdrop-blur">
+        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Subject Template</label>
+        <div class="relative">
+          <select id="subjectSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none cursor-pointer">
+            <option value="dsa" selected>Data Structures & Algorithms (DSA) — Mrs. Ramneet Kaur</option>
+            <option value="oops">Object Oriented Programming (Java/C++)</option>
+            <option value="dbms">Database Management Systems (DBMS)</option>
+            <option value="os">Operating Systems Lab</option>
+          </select>
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card: Student Details Form -->
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl backdrop-blur space-y-5">
+        <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center space-x-2">
+            <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+            <span>Student Information</span>
+          </h2>
+          <span class="text-[11px] text-slate-400">Auto-Title Case Active</span>
+        </div>
+
+        <!-- Student Name Input -->
+        <div>
+          <label for="studentName" class="block text-xs font-medium text-slate-300 mb-1.5">
+            Your Full Name <span class="text-rose-500">*</span>
+          </label>
+          <div class="relative">
+            <input 
+              type="text" 
+              id="studentName" 
+              value="Vicky Kumar" 
+              placeholder="e.g. Vicky Kumar, Rohit Sharma"
+              class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+              oninput="handleNameInput(this.value)"
+            />
+            <div id="nameCheck" class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-emerald-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+          </div>
+          <p class="text-[11px] text-slate-500 mt-1">Automatically capitalizes each word & auto-scales font if extra long.</p>
+        </div>
+
+        <!-- Branch / Specialization Selector -->
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1.5">
+            Branch / Specialization <span class="text-rose-500">*</span>
+          </label>
+          
+          <!-- Branch Quick Pills -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 mb-2.5">
+            <button type="button" onclick="setBranch('CSE')" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-300 hover:border-indigo-500 hover:text-white transition text-center" data-val="B.Tech. — Computer Science and Engineering">CSE Core</button>
+            <button type="button" onclick="setBranch('AIML')" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-indigo-500/50 bg-indigo-500/10 text-indigo-300 hover:border-indigo-500 hover:text-white transition text-center active-pill" data-val="B.Tech. — Computer Science and Engineering (AIML)">CSE (AIML)</button>
+            <button type="button" onclick="setBranch('DS')" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-300 hover:border-indigo-500 hover:text-white transition text-center" data-val="B.Tech. — Computer Science and Engineering (DS)">CSE (DS)</button>
+            <button type="button" onclick="setBranch('IOT')" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-300 hover:border-indigo-500 hover:text-white transition text-center" data-val="B.Tech. — Computer Science and Engineering (IoT)">CSE (IoT)</button>
+            <button type="button" onclick="setBranch('IT')" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-300 hover:border-indigo-500 hover:text-white transition text-center" data-val="B.Tech. — Information Technology">IT</button>
+            <button type="button" onclick="setBranch('CUSTOM')" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-300 hover:border-indigo-500 hover:text-white transition text-center" data-val="CUSTOM">Custom...</button>
+          </div>
+
+          <!-- Branch text input -->
+          <input 
+            type="text" 
+            id="branchInput" 
+            value="B.Tech. — Computer Science and Engineering (AIML)" 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+            oninput="handleBranchInput(this.value)"
+          />
+        </div>
+
+        <!-- Semester & Faculty Details (Accordion) -->
+        <div class="grid grid-cols-2 gap-3 pt-1">
+          <div>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Semester</label>
+            <input 
+              type="text" 
+              id="semInput" 
+              value="3rd Semester" 
+              class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-medium text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              oninput="handleSemInput(this.value)"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Teacher / Faculty</label>
+            <input 
+              type="text" 
+              id="facultyInput" 
+              value="Mrs. Ramneet Kaur" 
+              readonly
+              class="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-xs font-medium text-slate-400 cursor-not-allowed"
+            />
+          </div>
+        </div>
+
+        <!-- Action Button: Instant PDF Generation -->
+        <div class="pt-2">
+          <button 
+            id="generateBtn" 
+            onclick="generateAndDownload()" 
+            class="w-full py-3.5 px-5 rounded-xl font-bold text-sm tracking-wide text-white bg-gradient-to-r from-amber-500 via-indigo-600 to-indigo-700 hover:from-amber-400 hover:via-indigo-500 hover:to-indigo-600 shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 active:scale-[0.99] transition transform flex items-center justify-center space-x-2"
+          >
+            <svg class="w-5 h-5 animate-pulse text-amber-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+            </svg>
+            <span id="btnText">Download Pixel-Perfect PDF</span>
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+          <span class="flex items-center space-x-1">
+            <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Original College Border & Crest Intact</span>
+          </span>
+          <span class="text-amber-400/80 font-medium">Ready for Print (₹2/page)</span>
+        </div>
+
+      </div>
+
+      <!-- Quick Tips Card -->
+      <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800/80 text-xs text-slate-400 space-y-1.5">
+        <p class="font-semibold text-slate-300">💡 College Print Shop Pro-Tip:</p>
+        <p>You can send the generated PDF directly to the stationery shop on WhatsApp. The file is calibrated to standard A4 (595 × 842 pt) with zero margin cut-offs.</p>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Live Interactive Vector Preview (7 cols) -->
+    <div class="lg:col-span-7 flex flex-col items-center">
+      
+      <div class="w-full flex items-center justify-between mb-3 px-2">
+        <div class="flex items-center space-x-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Live 60fps Document Preview</span>
+        </div>
+        <div class="text-xs text-slate-500 font-medium">
+          A4 Portrait (1:1 Ratio)
+        </div>
+      </div>
+
+      <!-- PDF Canvas Container with exact A4 aspect ratio -->
+      <div class="relative w-full max-w-[520px] aspect-[1/1.4142] rounded-xl overflow-hidden paper-shadow bg-white border border-slate-700/60 transition-all">
+        
+        <!-- Base Template Image (High DPI cleaned background) -->
+        <img 
+          src="/assets/preview.png" 
+          alt="IITM Front Page Template Base" 
+          class="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
+        />
+
+        <!-- Live Vector Overlay for SUBMITTED BY (Mapped to exact PDF coordinates) -->
+        <div 
+          id="submittedByOverlay"
+          class="absolute text-center select-none"
+          style="left: 14%; top: 62.5%; width: 36%;"
+        >
+          <!-- Dynamic Student Name -->
+          <div 
+            id="previewName" 
+            class="font-serif font-bold text-slate-900 leading-tight tracking-normal mb-1"
+            style="font-size: clamp(10px, 1.65vw, 15px); color: #111827;"
+          >
+            Vicky Kumar
+          </div>
+
+          <!-- Dynamic Branch (auto-wrapping) -->
+          <div 
+            id="previewBranch" 
+            class="font-serif font-bold leading-tight"
+            style="font-size: clamp(8px, 1.35vw, 12px); color: #1e3a8a;"
+          >
+            <div>B.Tech. — Computer Science and</div>
+            <div>Engineering (AIML)</div>
+          </div>
+
+          <!-- Dynamic Semester -->
+          <div 
+            id="previewSem" 
+            class="font-serif text-slate-600 mt-1 leading-tight"
+            style="font-size: clamp(8px, 1.3vw, 11.5px); color: #4b5563;"
+          >
+            3rd Semester
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-4 flex items-center space-x-3 text-xs text-slate-500">
+        <span>Press <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[10px]">Enter</kbd> to quick-download</span>
+        <span>•</span>
+        <span>Instant client & server sync</span>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Modal: Batch Friend Mode -->
+  <div id="batchModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-2">
+          <div class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+          </div>
+          <h3 class="font-bold text-base text-slate-100">Batch Friend Group Generator</h3>
+        </div>
+        <button onclick="toggleBatchModal(false)" class="text-slate-400 hover:text-white p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <p class="text-xs text-slate-400">
+        Going to the stationery shop? Enter your friends' names below (one per line). We'll generate a single <span class="text-indigo-400 font-semibold">.zip</span> of all your front pages ready to print together.
+      </p>
+
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">Batch Names List</label>
+        <textarea 
+          id="batchNames" 
+          rows="5" 
+          class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs font-mono text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          placeholder="Vicky Kumar&#10;Rohit Sharma&#10;Virat Yadav&#10;Sudhanshu Ranjan Adarsh&#10;Aman Kumar"
+        >Vicky Kumar
+Rohit Sharma
+Virat Yadav
+Sudhanshu Ranjan Adarsh</textarea>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1">Batch Branch</label>
+          <select id="batchBranch" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200">
+            <option value="B.Tech. — Computer Science and Engineering (AIML)">CSE (AIML)</option>
+            <option value="B.Tech. — Computer Science and Engineering">CSE Core</option>
+            <option value="B.Tech. — Computer Science and Engineering (DS)">CSE (DS)</option>
+            <option value="B.Tech. — Information Technology">IT</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1">Semester</label>
+          <input type="text" id="batchSem" value="3rd Semester" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200" />
+        </div>
+      </div>
+
+      <div class="pt-2 flex items-center justify-end space-x-3">
+        <button onclick="toggleBatchModal(false)" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition">Cancel</button>
+        <button onclick="downloadBatch()" id="batchSubmitBtn" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white transition flex items-center space-x-2">
+          <span>Download All (.zip)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Client-Side Script -->
+  <script>
+    // Title Case utility
+    function toTitleCase(str) {
+      return str.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
+    }
+
+    function handleNameInput(val) {
+      const formatted = toTitleCase(val);
+      document.getElementById('previewName').innerText = formatted || 'Your Name';
+    }
+
+    function handleBranchInput(val) {
+      updateBranchPreview(val);
+    }
+
+    function handleSemInput(val) {
+      document.getElementById('previewSem').innerText = val || '3rd Semester';
+    }
+
+    function setBranch(type) {
+      // Update pills UI
+      document.querySelectorAll('.branch-pill').forEach(btn => {
+        btn.classList.remove('active-pill', 'border-indigo-500/50', 'bg-indigo-500/10', 'text-indigo-300');
+        btn.classList.add('border-slate-700', 'bg-slate-950', 'text-slate-300');
+      });
+
+      const clicked = event.currentTarget;
+      clicked.classList.remove('border-slate-700', 'bg-slate-950', 'text-slate-300');
+      clicked.classList.add('active-pill', 'border-indigo-500/50', 'bg-indigo-500/10', 'text-indigo-300');
+
+      let branchVal = clicked.getAttribute('data-val');
+      if (branchVal === 'CUSTOM') {
+        const input = document.getElementById('branchInput');
+        input.focus();
+        input.select();
+        return;
+      }
+
+      document.getElementById('branchInput').value = branchVal;
+      updateBranchPreview(branchVal);
+    }
+
+    function updateBranchPreview(branchText) {
+      const preview = document.getElementById('previewBranch');
+      if (!branchText) {
+        preview.innerHTML = '<div>B.Tech. — Computer Science and</div><div>Engineering</div>';
+        return;
+      }
+
+      // Check if starts with B.Tech.
+      if (branchText.includes('—') || branchText.includes('-')) {
+        const parts = branchText.split(/—|-/);
+        const prefix = 'B.Tech. —';
+        const rest = parts.slice(1).join('—').trim();
+        
+        // Split rest if contains Engineering or parenthesis
+        if (rest.includes('Engineering')) {
+          const engIdx = rest.indexOf('Engineering');
+          const l1 = prefix + ' ' + rest.substring(0, engIdx).trim();
+          const l2 = rest.substring(engIdx).trim();
+          preview.innerHTML = `<div>${l1}</div><div>${l2}</div>`;
+        } else {
+          preview.innerHTML = `<div>${prefix} ${rest}</div>`;
+        }
+      } else {
+        preview.innerHTML = `<div>${branchText}</div>`;
+      }
+    }
+
+    async function generateAndDownload() {
+      const btn = document.getElementById('generateBtn');
+      const btnText = document.getElementById('btnText');
+      const name = toTitleCase(document.getElementById('studentName').value.trim()) || 'Vicky Kumar';
+      const branch = document.getElementById('branchInput').value.trim() || 'B.Tech. — Computer Science and Engineering (AIML)';
+      const sem = document.getElementById('semInput').value.trim() || '3rd Semester';
+
+      btn.disabled = true;
+      btnText.innerText = 'Engraving Vector PDF...';
+
+      try {
+        const res = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, branch, sem })
+        });
+
+        if (!res.ok) throw new Error('Generation failed');
+
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `${name.replace(/\\s+/g, '_')}_DSA_FrontPage.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
+        
+        btnText.innerText = 'Downloaded Successfully! ✨';
+        setTimeout(() => {
+          btnText.innerText = 'Download Pixel-Perfect PDF';
+          btn.disabled = false;
+        }, 2000);
+      } catch (err) {
+        alert('Error generating PDF: ' + err.message);
+        btnText.innerText = 'Download Pixel-Perfect PDF';
+        btn.disabled = false;
+      }
+    }
+
+    function toggleBatchModal(show) {
+      const modal = document.getElementById('batchModal');
+      if (show) modal.classList.remove('hidden');
+      else modal.classList.add('hidden');
+    }
+
+    async function downloadBatch() {
+      const namesRaw = document.getElementById('batchNames').value;
+      const branch = document.getElementById('batchBranch').value;
+      const sem = document.getElementById('batchSem').value;
+      const btn = document.getElementById('batchSubmitBtn');
+
+      const names = namesRaw.split('\n').map(n => n.trim()).filter(n => n.length > 0);
+      if (names.length === 0) {
+        alert('Please enter at least one name.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = `Generating ${names.length} PDFs...`;
+
+      try {
+        const students = names.map(n => ({ name: toTitleCase(n), branch }));
+        const res = await fetch('/api/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ students, sem })
+        });
+
+        if (!res.ok) throw new Error('Batch creation failed');
+
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'IITM_FrontPages_Batch.zip';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
+
+        toggleBatchModal(false);
+      } catch (e) {
+        alert('Batch error: ' + e.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Download All (.zip)';
+      }
+    }
+
+    // Keyboard shortcut (Enter to download)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.target.matches('textarea, select')) {
+        e.preventDefault();
+        generateAndDownload();
+      }
+    });
+
+    // Initialize initial preview
+    handleNameInput(document.getElementById('studentName').value);
+    updateBranchPreview(document.getElementById('branchInput').value);
+  </script>
+
+</body>
+</html>
