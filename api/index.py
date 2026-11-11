@@ -6,20 +6,14 @@ import io
 import zipfile
 from http.server import BaseHTTPRequestHandler
 
-# Ensure project root & src/ are in sys.path
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.dirname(CURRENT_DIR)
-SRC_DIR = os.path.join(ROOT_DIR, 'src')
-if SRC_DIR not in sys.path:
-    sys.path.insert(0, SRC_DIR)
-if ROOT_DIR not in sys.path:
-    sys.path.insert(0, ROOT_DIR)
+if CURRENT_DIR not in sys.path:
+    sys.path.insert(0, CURRENT_DIR)
 
 from engine import build_pdf
 
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
-        parsed = urllib.parse.urlparse(self.path)
         content_length = int(self.headers.get('Content-Length', 0))
         post_data = self.rfile.read(content_length) if content_length > 0 else b'{}'
         
@@ -28,44 +22,10 @@ class handler(BaseHTTPRequestHandler):
         except Exception:
             payload = {}
 
-        path = parsed.path.rstrip('/')
+        path = urllib.parse.urlparse(self.path).path.rstrip('/')
         
-        # Route 1: /api/generate
-        if path.endswith('/generate') or path == '/api/generate':
-            template_key = payload.get('template', 'dsa').strip()
-            name = payload.get('name', '').strip() or 'Sudhanshu Ranjan Adarsh'
-            branch = payload.get('branch', '').strip()
-            sem = payload.get('sem', '').strip() or '3rd Sem'
-            roll_no = payload.get('roll_no', '').strip()
-
-            try:
-                pdf_bytes = build_pdf(
-                    student_name=name,
-                    branch_name=branch,
-                    semester=sem,
-                    roll_no=roll_no,
-                    template_key=template_key
-                )
-            except Exception as e:
-                self.send_response(500)
-                self.send_header('Content-Type', 'application/json')
-                self.send_header('Access-Control-Allow-Origin', '*')
-                self.end_headers()
-                self.wfile.write(json.dumps({'error': str(e)}).encode('utf-8'))
-                return
-            
-            clean_filename = f"{name.replace(' ', '_')}_{template_key.upper()}_FrontPage.pdf"
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/pdf')
-            self.send_header('Content-Disposition', f'attachment; filename="{clean_filename}"')
-            self.send_header('Content-Length', str(len(pdf_bytes)))
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.end_headers()
-            self.wfile.write(pdf_bytes)
-            return
-
-        # Route 2: /api/batch
-        elif path.endswith('/batch') or path == '/api/batch':
+        # If payload has students or path is batch -> handle batch
+        if 'students' in payload or path.endswith('/batch'):
             template_key = payload.get('template', 'dsa').strip()
             students = payload.get('students', [])
             sem = payload.get('sem', '3rd Sem')
@@ -108,11 +68,37 @@ class handler(BaseHTTPRequestHandler):
             self.wfile.write(zip_bytes)
             return
 
-        self.send_response(404)
-        self.send_header('Content-Type', 'application/json')
+        # Default: Single PDF Generation
+        template_key = payload.get('template', 'dsa').strip()
+        name = payload.get('name', '').strip() or 'Sudhanshu Ranjan Adarsh'
+        branch = payload.get('branch', '').strip()
+        sem = payload.get('sem', '').strip() or '3rd Sem'
+        roll_no = payload.get('roll_no', '').strip()
+
+        try:
+            pdf_bytes = build_pdf(
+                student_name=name,
+                branch_name=branch,
+                semester=sem,
+                roll_no=roll_no,
+                template_key=template_key
+            )
+        except Exception as e:
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': str(e)}).encode('utf-8'))
+            return
+        
+        clean_filename = f"{name.replace(' ', '_')}_{template_key.upper()}_FrontPage.pdf"
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/pdf')
+        self.send_header('Content-Disposition', f'attachment; filename="{clean_filename}"')
+        self.send_header('Content-Length', str(len(pdf_bytes)))
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
-        self.wfile.write(json.dumps({'error': 'Not found'}).encode('utf-8'))
+        self.wfile.write(pdf_bytes)
 
     def do_OPTIONS(self):
         self.send_response(200)
@@ -120,4 +106,3 @@ class handler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
-

@@ -12,8 +12,23 @@ import re
 import zlib
 from fontTools.ttLib import TTFont
 
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATES_DIR = os.path.join(ROOT_DIR, 'templates')
+CURRENT_FILE_DIR = os.path.dirname(os.path.abspath(__file__))
+PARENT_FILE_DIR = os.path.dirname(CURRENT_FILE_DIR)
+
+def _find_templates_dir():
+    candidates = [
+        os.path.join(CURRENT_FILE_DIR, 'templates'),
+        os.path.join(PARENT_FILE_DIR, 'templates'),
+        os.path.join(PARENT_FILE_DIR, 'api', 'templates'),
+        '/vercel/path0/templates',
+        '/vercel/path0/api/templates'
+    ]
+    for c in candidates:
+        if os.path.isdir(c) and os.path.exists(os.path.join(c, 'DSA_Practical_File_Edited.pdf')):
+            return c
+    return os.path.join(PARENT_FILE_DIR, 'templates')
+
+TEMPLATES_DIR = _find_templates_dir()
 
 TEMPLATE_MAP = {
     'dsa': {
@@ -37,7 +52,20 @@ TEMPLATE_MAP = {
 }
 
 # Typography font metrics
-FONTS_DIR = os.path.join(ROOT_DIR, 'fonts')
+def _find_fonts_dir():
+    candidates = [
+        os.path.join(CURRENT_FILE_DIR, 'fonts'),
+        os.path.join(PARENT_FILE_DIR, 'fonts'),
+        os.path.join(PARENT_FILE_DIR, 'api', 'fonts'),
+        '/vercel/path0/fonts',
+        '/vercel/path0/api/fonts'
+    ]
+    for c in candidates:
+        if os.path.isdir(c) and os.path.exists(os.path.join(c, 'LiberationSerif-Bold.ttf')):
+            return c
+    return os.path.join(PARENT_FILE_DIR, 'fonts')
+
+FONTS_DIR = _find_fonts_dir()
 
 def _load_font(filename: str, fallback_path: str) -> TTFont:
     local_path = os.path.join(FONTS_DIR, filename)
