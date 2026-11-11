@@ -24,6 +24,8 @@ class handler(BaseHTTPRequestHandler):
         branch = payload.get('branch', '').strip()
         sem = payload.get('sem', '').strip() or '3rd Sem'
         roll_no = payload.get('roll_no', '').strip()
+        id_label = payload.get('id_label', 'enr').strip().lower()
+        id_label = 'roll' if id_label == 'roll' else 'enr'
 
         try:
             pdf_bytes = build_pdf(
@@ -31,6 +33,7 @@ class handler(BaseHTTPRequestHandler):
                 branch_name=branch,
                 semester=sem,
                 roll_no=roll_no,
+                id_label=id_label,
                 template_key=template_key
             )
         except Exception as e:

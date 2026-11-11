@@ -375,7 +375,7 @@
             <!-- Enrollment Number (For DS PCCSE201 & Java PCCSE203) -->
             <div id="enrFieldContainer" class="hidden">
               <label class="block text-xs font-medium text-zinc-700 mb-1.5">
-                Enrollment Number <span class="text-zinc-400">(Keeps 'Enr. No:' intact)</span>
+                Enrollment / Roll Number
               </label>
               <input 
                 type="text" 
@@ -385,6 +385,17 @@
                 class="w-full bg-[#FAF9F5] border border-zinc-300 rounded-xl px-3.5 py-2.5 text-xs font-mono font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition"
                 oninput="handleEnrInput(this.value)"
               />
+
+              <label class="block text-xs font-medium text-zinc-700 mt-2.5 mb-1.5">
+                Number Label
+              </label>
+              <select
+                id="enrLabelType"
+                class="w-full bg-[#FAF9F5] border border-zinc-300 rounded-xl px-3.5 py-2.5 text-xs font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition"
+              >
+                <option value="enr" selected>Enr. No.:</option>
+                <option value="roll">Roll No.:</option>
+              </select>
             </div>
 
             <!-- Semester -->
@@ -903,6 +914,7 @@ Virat Yadav</textarea>
       const branch = document.getElementById('branchInput').value.trim();
       const sem = document.getElementById('semInput').value.trim();
       const roll_no = (currentTemplate === 'dsa') ? '' : document.getElementById('enrInput').value.trim();
+      const id_label = (currentTemplate === 'dsa') ? 'enr' : document.getElementById('enrLabelType').value;
 
       btn.disabled = true;
       btnText.innerText = 'Engraving Vector PDF...';
@@ -916,6 +928,7 @@ Virat Yadav</textarea>
             branch, 
             sem, 
             roll_no, 
+              id_label,
             template: currentTemplate 
           })
         });
@@ -955,6 +968,7 @@ Virat Yadav</textarea>
       const namesRaw = document.getElementById('batchNames').value;
       const branch = document.getElementById('batchBranch').value;
       const sem = document.getElementById('batchSem').value;
+      const id_label = (currentTemplate === 'dsa') ? 'enr' : document.getElementById('enrLabelType').value;
       const btn = document.getElementById('batchSubmitBtn');
 
       const names = namesRaw.split('\n').map(n => n.trim()).filter(n => n.length > 0);
@@ -971,7 +985,7 @@ Virat Yadav</textarea>
         const res = await fetch('/api/batch', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ students, sem, branch, template: currentTemplate })
+          body: JSON.stringify({ students, sem, branch, id_label, template: currentTemplate })
         });
 
         if (!res.ok) throw new Error('Batch creation failed');

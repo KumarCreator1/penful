@@ -25,6 +25,8 @@ class handler(BaseHTTPRequestHandler):
         students = payload.get('students', [])
         sem = payload.get('sem', '3rd Sem')
         branch = payload.get('branch', '')
+        id_label = payload.get('id_label', 'enr').strip().lower()
+        id_label = 'roll' if id_label == 'roll' else 'enr'
         
         try:
             zip_buffer = io.BytesIO()
@@ -40,6 +42,7 @@ class handler(BaseHTTPRequestHandler):
                         branch_name=s_branch,
                         semester=sem,
                         roll_no=s_roll,
+                        id_label=id_label,
                         template_key=template_key
                     )
                     filename = f"{(idx+1):02d}_{s_name.replace(' ', '_')}_{template_key.upper()}_FrontPage.pdf"

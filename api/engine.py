@@ -258,7 +258,8 @@ def build_pdf_enr_sem(
     student_name: str,
     enr_no: str,
     semester: str,
-    template_key: str
+    template_key: str,
+    id_label: str = "enr"
 ) -> bytes:
     """
     Engine for Course Code Templates:
@@ -278,12 +279,15 @@ def build_pdf_enr_sem(
     # Redact original hardcoded text blocks
     # 1. Student Name
     b_name = re.search(rb'BT\s+0 Tr\s+/F3 18.720699 Tf\s+1 0 0.000000 -1 116.800003 675.359985 Tm.*?ET', decomp, re.DOTALL).group(0)
-    # 2. Enr value
+    # 2. Enr/Roll label
+    b_enr_label = re.search(rb'BT\s+0 Tr\s+/F3 14.720600 Tf\s+1 0 0.000000 -1 186.240005 696.000000 Tm.*?ET', decomp, re.DOTALL).group(0)
+    # 3. Enr value
     b_enr = re.search(rb'BT\s+0 Tr\s+/F5 14.720600 Tf\s+1 0 0.000000 -1 239.520004 696.000000 Tm.*?ET', decomp, re.DOTALL).group(0)
-    # 3. Sem block: redact old 3rd Sem block and re-inject with perfectly aligned CSE Department, IITM
+    # 4. Sem block: redact old 3rd Sem block and re-inject with perfectly aligned CSE Department, IITM
     b_sem = re.search(rb'BT\s+0 Tr\s+/F5 14.720600 Tf\s+1 0 0.000000 -1 221.759995 714.239990 Tm.*?ET', decomp, re.DOTALL).group(0)
 
     clean_decomp = decomp.replace(b_name, b'q Q ' + b' '*(len(b_name)-4))
+    clean_decomp = clean_decomp.replace(b_enr_label, b'q Q ' + b' '*(len(b_enr_label)-4))
     clean_decomp = clean_decomp.replace(b_enr, b'q Q ' + b' '*(len(b_enr)-4))
     clean_decomp = clean_decomp.replace(b_sem, b'q Q ' + b' '*(len(b_sem)-4))
 
@@ -299,8 +303,10 @@ def build_pdf_enr_sem(
 
     enr_clean = enr_no.strip() if enr_no else "ITM2648475"
     sem_clean = semester.strip() if semester else "3rd Sem"
+    label_text = "Roll No.:" if id_label == 'roll' else "Enr. No.:"
 
     name_str = encode_pdf_string(student_name).decode('latin1')
+    label_str = encode_pdf_string(label_text).decode('latin1')
     enr_str = encode_pdf_string(enr_clean).decode('latin1')
     sem_str = encode_pdf_string(sem_clean).decode('latin1')
 
@@ -317,6 +323,14 @@ BT
 /tibo {name_font_size:.2f} Tf
 1 0 0.000000 -1 {name_x_stream:.2f} {name_y_stream:.2f} Tm
 ({name_str}) Tj
+ET
+Q
+q
+0.066667 0.094118 0.152941 rg
+BT
+/tibo 14.72 Tf
+1 0 0.000000 -1 186.24 696.00 Tm
+({label_str}) Tj
 ET
 Q
 q
@@ -392,6 +406,7 @@ def build_pdf(
     branch_name: str = "B.Tech. — Computer Science and Engineering (AIML)",
     semester: str = "3rd Semester",
     roll_no: str = "",
+    id_label: str = "enr",
     template_key: str = "dsa"
 ) -> bytes:
     """Master Router for all college practical templates."""
@@ -400,7 +415,8 @@ def build_pdf(
             student_name=student_name,
             enr_no=roll_no,
             semester=semester,
-            template_key=template_key
+            template_key=template_key,
+            id_label=id_label
         )
     else:
         return build_pdf_dsa(
