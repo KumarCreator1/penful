@@ -1,369 +1,840 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FrontCraft — Instant College Practical Front Page Generator</title>
+  <title>PenFul — College Practical Front Page Vector Generator</title>
+  <meta name="description" content="Generate pixel-perfect, college-compliant practical file front pages in 10 seconds. Precise vector coordinate alignment for CSE, AIML, DS, IoT, and IT.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            serif: ['"Source Serif 4"', '"Playfair Display"', 'Times New Roman', 'serif'],
-            cinzel: ['Cinzel', 'serif']
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            serif: ['"Source Serif 4"', 'Georgia', 'serif'],
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace']
           },
           colors: {
-            navy: {
-              800: '#111827',
-              900: '#0B132B',
-              accent: '#1e3a8a'
-            },
-            brandGold: '#c59b27'
+            paper: '#FAF9F5',
+            ink: '#18181B',
+            hairline: '#E4E4E7',
+            muted: '#71717A'
           }
         }
       }
     }
   </script>
   <style>
-    /* Custom scrollbars */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #374151; border-radius: 9999px; }
-    ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+    /* Architectural background grid from inspiration */
+    .bg-grid-subtle {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(24, 24, 27, 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(24, 24, 27, 0.035) 1px, transparent 1px);
+    }
     
     .paper-shadow {
-      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      box-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.04),
+        0 8px 24px -4px rgba(0, 0, 0, 0.06),
+        0 20px 48px -12px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-float-shadow {
+      box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.02),
+        0 12px 28px -6px rgba(0, 0, 0, 0.07),
+        0 24px 60px -12px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Tactile transitions without bounce */
+    .card-hover-tactile {
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-hover-tactile:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.09);
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-indigo-500 selection:text-white">
+<body class="bg-[#FBFBFA] text-zinc-900 min-h-screen flex flex-col font-sans antialiased selection:bg-zinc-800 selection:text-white">
 
-  <!-- Header -->
-  <header class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 via-indigo-500 to-cyan-400 p-[1.5px] shadow-lg shadow-indigo-500/20">
-          <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-            <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-            </svg>
-          </div>
-        </div>
-        <div>
-          <div class="flex items-center space-x-2">
-            <span class="font-bold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-amber-200 bg-clip-text text-transparent">FrontCraft</span>
-            <span class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">IITM Edition</span>
-          </div>
-          <p class="text-[11px] text-slate-400 -mt-0.5">3rd Semester Practical Front Page Engine</p>
-        </div>
-      </div>
-
-      <!-- Quick stats / batch toggle -->
-      <div class="flex items-center space-x-2">
-        <div class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>Vector Precision 100%</span>
-        </div>
-        <button id="batchModeBtn" onclick="toggleBatchModal(true)" class="text-xs font-semibold px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center space-x-1.5">
-          <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+  <!-- ==================== 1. NAVIGATION BAR ==================== -->
+  <header class="sticky top-0 z-40 bg-[#FBFBFA]/90 backdrop-blur-md border-b border-zinc-200/80 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center space-x-2.5 group">
+        <div class="w-8 h-8 rounded-lg bg-zinc-900 text-white flex items-center justify-center transition-transform group-hover:scale-95">
+          <!-- Stylized Pen Nib Icon -->
+          <svg class="w-4 h-4 text-zinc-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m12 19 7-7 3 3-7 7-3-3z"/>
+            <path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+            <path d="m2 2 7.586 7.586"/>
+            <circle cx="11" cy="11" r="2"/>
           </svg>
-          <span>Batch Friend Mode</span>
-        </button>
-      </div>
+        </div>
+        <div class="flex items-baseline space-x-2">
+          <span class="font-serif font-bold text-xl tracking-tight text-zinc-900">PenFul</span>
+          <span class="text-[11px] font-mono uppercase tracking-widest text-zinc-400 font-medium">IITM 3rd Sem</span>
+        </div>
+      </a>
+
+      <!-- Center & Right Navigation -->
+      <nav class="flex items-center space-x-6 sm:space-x-8">
+        <a href="#how-it-works" class="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
+          How it Works
+        </a>
+        <a href="#support" class="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
+          Support the Dev
+        </a>
+        <a href="#generator" class="hidden sm:inline-flex items-center justify-center text-sm font-medium text-white bg-zinc-900 hover:bg-zinc-800 px-4 py-2 rounded-lg transition-colors">
+          Generate PDF Now
+        </a>
+      </nav>
+
     </div>
   </header>
 
-  <!-- Main Grid -->
-  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+  <!-- ==================== 2. THE HERO SECTION ==================== -->
+  <section class="relative pt-16 pb-20 sm:pt-24 sm:pb-28 overflow-hidden bg-grid-subtle">
     
-    <!-- Left Column: Generator Form Controls (5 cols) -->
-    <div class="lg:col-span-5 space-y-6">
+    <!-- Subtle ambient decorative circles inspired by reference -->
+    <div class="absolute top-20 left-1/4 w-72 h-72 rounded-full bg-amber-100/30 blur-3xl pointer-events-none -z-10"></div>
+    <div class="absolute top-36 right-1/4 w-80 h-80 rounded-full bg-indigo-100/25 blur-3xl pointer-events-none -z-10"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
       
-      <!-- Card: Subject Template Selector -->
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl backdrop-blur">
-        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Subject Template</label>
-        <div class="relative">
-          <select id="subjectSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none cursor-pointer">
-            <option value="dsa" selected>Data Structures & Algorithms (DSA) — Mrs. Ramneet Kaur</option>
-            <option value="oops">Object Oriented Programming (Java/C++)</option>
-            <option value="dbms">Database Management Systems (DBMS)</option>
-            <option value="os">Operating Systems Lab</option>
-          </select>
-          <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </div>
-        </div>
+      <!-- Small Status Pill -->
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200/80 text-xs font-medium text-zinc-700 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span>Updated for 2026 Lab Submissions • 3 Templates Supported</span>
       </div>
 
-      <!-- Card: Student Details Form -->
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl backdrop-blur space-y-5">
-        <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
-          <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center space-x-2">
-            <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-            </svg>
-            <span>Student Information</span>
-          </h2>
-          <span class="text-[11px] text-slate-400">Auto-Title Case Active</span>
+      <!-- Main Editorial Headline -->
+      <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-zinc-900 tracking-tight leading-[1.15] mb-6">
+        Stop fighting with PDF editors..
+      </h1>
+
+      <!-- Sub-headline with user's exact copy -->
+      <p class="max-w-2xl mx-auto text-base sm:text-lg text-zinc-600 leading-relaxed font-normal mb-8">
+        I was tired of watching my friends waste hours aligning text before every submission deadline. So I automated it. Select your branch, type your name, and download a pixel-perfect front page in 10 seconds.
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-16">
+        <a 
+          href="#generator" 
+          class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-medium text-sm transition-colors shadow-sm"
+        >
+          <svg class="w-4 h-4 mr-2 text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+          </svg>
+          Open Generator
+        </a>
+        <a 
+          href="#how-it-works" 
+          class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-xl bg-white hover:bg-zinc-50 text-zinc-800 font-medium text-sm border border-zinc-200 transition-colors"
+        >
+          How it Works
+        </a>
+      </div>
+
+      <!-- ==================== 3. FLOATING STUDENT CARDS ==================== -->
+      <!-- Tilted physical index cards matching user's reference inspiration -->
+      <div class="relative max-w-4xl mx-auto pt-4 pb-8">
+        
+        <!-- Floating decorative icon badges as in reference -->
+        <div class="hidden md:flex absolute -top-4 left-6 w-9 h-9 rounded-full bg-white border border-zinc-200 card-float-shadow items-center justify-center text-amber-500 z-20">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+        </div>
+        <div class="hidden md:flex absolute top-2 right-8 w-9 h-9 rounded-full bg-white border border-zinc-200 card-float-shadow items-center justify-center text-indigo-500 z-20">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
         </div>
 
-        <!-- Student Name Input -->
-        <div>
-          <label for="studentName" class="block text-xs font-medium text-slate-300 mb-1.5">
-            Your Full Name <span class="text-rose-500">*</span>
-          </label>
-          <div class="relative">
-            <input 
-              type="text" 
-              id="studentName" 
-              value="Vicky Kumar" 
-              placeholder="e.g. Vicky Kumar, Rohit Sharma"
-              class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-              oninput="handleNameInput(this.value)"
-            />
-            <div id="nameCheck" class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-emerald-400">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-4 items-stretch">
+          
+          <!-- Card 1 (Left - Tilted) -->
+          <div class="bg-white rounded-2xl p-6 border border-zinc-200/90 text-left card-float-shadow card-hover-tactile md:-rotate-2 md:translate-y-3 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center space-x-2.5 mb-3">
+                <div class="w-7 h-7 rounded-full bg-amber-50 text-amber-700 font-mono text-xs font-semibold flex items-center justify-center border border-amber-200/60">
+                  AK
+                </div>
+                <div>
+                  <span class="text-xs font-medium text-zinc-900 block leading-tight">Aman K.</span>
+                  <span class="text-[10px] text-zinc-400 block leading-tight">CSE Lab • 11:42 PM</span>
+                </div>
+              </div>
+              <p class="font-serif text-sm text-zinc-800 leading-snug italic">
+                “Wait, did anyone figure out how to align the branch name without breaking the whole PDF?”
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-400">
+              <span>Text Reflow Issue</span>
+              <span class="font-mono text-amber-600 font-medium">Solved</span>
             </div>
           </div>
-          <p class="text-[11px] text-slate-500 mt-1">Automatically capitalizes each word & auto-scales font if extra long.</p>
-        </div>
 
-        <!-- Branch / Specialization Selector -->
+          <!-- Card 2 (Center - Prominent) -->
+          <div class="bg-white rounded-2xl p-6 border border-zinc-300 text-left card-float-shadow card-hover-tactile md:translate-y-0 z-10 flex flex-col justify-between ring-1 ring-zinc-900/5">
+            <div>
+              <div class="flex items-center space-x-2.5 mb-3">
+                <div class="w-7 h-7 rounded-full bg-indigo-50 text-indigo-700 font-mono text-xs font-semibold flex items-center justify-center border border-indigo-200/60">
+                  RS
+                </div>
+                <div>
+                  <span class="text-xs font-medium text-zinc-900 block leading-tight">Rohit S.</span>
+                  <span class="text-[10px] text-zinc-400 block leading-tight">WhatsApp Group • 1:15 AM</span>
+                </div>
+              </div>
+              <p class="font-serif text-sm text-zinc-800 leading-snug italic">
+                “I’ve edited this 5 times on Sejda and the text still looks weird...”
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-400">
+              <span>Font Table Mismatch</span>
+              <span class="font-mono text-indigo-600 font-medium">Solved</span>
+            </div>
+          </div>
+
+          <!-- Card 3 (Right - Tilted) -->
+          <div class="bg-white rounded-2xl p-6 border border-zinc-200/90 text-left card-float-shadow card-hover-tactile md:rotate-2 md:translate-y-3 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center space-x-2.5 mb-3">
+                <div class="w-7 h-7 rounded-full bg-emerald-50 text-emerald-700 font-mono text-xs font-semibold flex items-center justify-center border border-emerald-200/60">
+                  VY
+                </div>
+                <div>
+                  <span class="text-xs font-medium text-zinc-900 block leading-tight">Virat Y.</span>
+                  <span class="text-[10px] text-zinc-400 block leading-tight">Night Before Exam • 2:30 AM</span>
+                </div>
+              </div>
+              <p class="font-serif text-sm text-zinc-800 leading-snug italic">
+                “Bro, just send me yours and I’ll try to edit my name over it.”
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-400">
+              <span>Dirty White-out Box</span>
+              <span class="font-mono text-emerald-600 font-medium">Solved</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 4. THE INTERACTIVE WORKSPACE (STUDIO) ==================== -->
+  <section id="generator" class="py-16 sm:py-20 bg-white border-y border-zinc-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-6 border-b border-zinc-100">
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1.5">
-            Branch / Specialization <span class="text-rose-500">*</span>
-          </label>
-          
-          <!-- Branch Quick Pills -->
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 mb-2.5">
-            <button type="button" onclick="setBranch('CSE')" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-300 hover:border-indigo-500 hover:text-white transition text-center" data-val="B.Tech. — Computer Science and Engineering">CSE Core</button>
-            <button type="button" onclick="setBranch('AIML')" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-indigo-500/50 bg-indigo-500/10 text-indigo-300 hover:border-indigo-500 hover:text-white transition text-center active-pill" data-val="B.Tech. — Computer Science and Engineering (AIML)">CSE (AIML)</button>
-            <button type="button" onclick="setBranch('DS')" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-300 hover:border-indigo-500 hover:text-white transition text-center" data-val="B.Tech. — Computer Science and Engineering (DS)">CSE (DS)</button>
-            <button type="button" onclick="setBranch('IOT')" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-300 hover:border-indigo-500 hover:text-white transition text-center" data-val="B.Tech. — Computer Science and Engineering (IoT)">CSE (IoT)</button>
-            <button type="button" onclick="setBranch('IT')" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-300 hover:border-indigo-500 hover:text-white transition text-center" data-val="B.Tech. — Information Technology">IT</button>
-            <button type="button" onclick="setBranch('CUSTOM')" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-300 hover:border-indigo-500 hover:text-white transition text-center" data-val="CUSTOM">Custom...</button>
-          </div>
-
-          <!-- Branch text input -->
-          <input 
-            type="text" 
-            id="branchInput" 
-            value="B.Tech. — Computer Science and Engineering (AIML)" 
-            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-            oninput="handleBranchInput(this.value)"
-          />
+          <span class="text-xs font-mono uppercase tracking-widest text-zinc-500 font-medium block mb-1">Interactive Studio</span>
+          <h2 class="font-serif text-2xl sm:text-3xl font-semibold text-zinc-900 tracking-tight">
+            Front Page Engineering Studio
+          </h2>
+          <p class="text-sm text-zinc-500 mt-1">
+            Zero binary corruption. Instant coordinate-mapped vector preview.
+          </p>
         </div>
-
-        <!-- Semester & Faculty Details (Accordion) -->
-        <div class="grid grid-cols-2 gap-3 pt-1">
-          <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1">Semester</label>
-            <input 
-              type="text" 
-              id="semInput" 
-              value="3rd Semester" 
-              class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-medium text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-              oninput="handleSemInput(this.value)"
-            />
+        <div class="mt-4 md:mt-0 flex items-center space-x-3">
+          <div class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-zinc-50 border border-zinc-200 text-zinc-700 text-xs font-medium">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span class="font-mono">Engine: Cairo Vector Core</span>
           </div>
-          <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1">Teacher / Faculty</label>
-            <input 
-              type="text" 
-              id="facultyInput" 
-              value="Mrs. Ramneet Kaur" 
-              readonly
-              class="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-xs font-medium text-slate-400 cursor-not-allowed"
-            />
-          </div>
-        </div>
-
-        <!-- Action Button: Instant PDF Generation -->
-        <div class="pt-2">
           <button 
-            id="generateBtn" 
-            onclick="generateAndDownload()" 
-            class="w-full py-3.5 px-5 rounded-xl font-bold text-sm tracking-wide text-white bg-gradient-to-r from-amber-500 via-indigo-600 to-indigo-700 hover:from-amber-400 hover:via-indigo-500 hover:to-indigo-600 shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 active:scale-[0.99] transition transform flex items-center justify-center space-x-2"
+            type="button"
+            onclick="toggleBatchModal(true)" 
+            class="text-xs font-medium px-3.5 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 border border-zinc-200 transition flex items-center space-x-1.5"
           >
-            <svg class="w-5 h-5 animate-pulse text-amber-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+            <svg class="w-3.5 h-3.5 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
             </svg>
-            <span id="btnText">Download Pixel-Perfect PDF</span>
+            <span>Batch Friend Mode (.zip)</span>
           </button>
         </div>
-
-        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
-          <span class="flex items-center space-x-1">
-            <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-            </svg>
-            <span>Original College Border & Crest Intact</span>
-          </span>
-          <span class="text-amber-400/80 font-medium">Ready for Print (₹2/page)</span>
-        </div>
-
       </div>
 
-      <!-- Quick Tips Card -->
-      <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800/80 text-xs text-slate-400 space-y-1.5">
-        <p class="font-semibold text-slate-300">💡 College Print Shop Pro-Tip:</p>
-        <p>You can send the generated PDF directly to the stationery shop on WhatsApp. The file is calibrated to standard A4 (595 × 842 pt) with zero margin cut-offs.</p>
-      </div>
-
-    </div>
-
-    <!-- Right Column: Live Interactive Vector Preview (7 cols) -->
-    <div class="lg:col-span-7 flex flex-col items-center">
-      
-      <div class="w-full flex items-center justify-between mb-3 px-2">
-        <div class="flex items-center space-x-2">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Live 60fps Document Preview</span>
-        </div>
-        <div class="text-xs text-slate-500 font-medium">
-          A4 Portrait (1:1 Ratio)
-        </div>
-      </div>
-
-      <!-- PDF Canvas Container with exact A4 aspect ratio -->
-      <div class="relative w-full max-w-[520px] aspect-[1/1.4142] rounded-xl overflow-hidden paper-shadow bg-white border border-slate-700/60 transition-all">
+      <!-- Studio Grid: Left Form Controls (5 cols) | Right Vector Live Preview (7 cols) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         
-        <!-- Base Template Image (High DPI cleaned background) -->
-        <img 
-          src="/assets/preview.png" 
-          alt="IITM Front Page Template Base" 
-          class="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
-        />
+        <!-- Left: Form Controls -->
+        <div class="lg:col-span-5 space-y-6">
+          
+          <!-- 1. Template Chooser -->
+          <div class="bg-[#FAF9F5] border border-zinc-200 rounded-2xl p-5">
+            <label class="block text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2.5">
+              1. Choose Course Template
+            </label>
+            <div class="space-y-2">
+              
+              <!-- DSA Branch Template -->
+              <label 
+                class="relative flex items-center p-3 rounded-xl border border-zinc-900 bg-white cursor-pointer transition template-radio-label active-template shadow-sm" 
+                onclick="onTemplateChange('dsa', this)"
+              >
+                <input type="radio" name="templateChoice" value="dsa" checked class="hidden" />
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-zinc-900">DSA Practical File</span>
+                    <span class="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-zinc-100 text-zinc-700 border border-zinc-200">Branch Reflow</span>
+                  </div>
+                  <p class="text-[11px] text-zinc-500 mt-0.5">Faculty: Mrs. Ramneet Kaur • Dual-baseline support for specializations</p>
+                </div>
+              </label>
 
-        <!-- Live Vector Overlay for SUBMITTED BY (Mapped to exact PDF coordinates) -->
-        <div 
-          id="submittedByOverlay"
-          class="absolute text-center select-none"
-          style="left: 14%; top: 62.5%; width: 36%;"
-        >
-          <!-- Dynamic Student Name -->
-          <div 
-            id="previewName" 
-            class="font-serif font-bold text-slate-900 leading-tight tracking-normal mb-1"
-            style="font-size: clamp(10px, 1.65vw, 15px); color: #111827;"
-          >
-            Vicky Kumar
+              <!-- Data Structures PCCSE201 -->
+              <label 
+                class="relative flex items-center p-3 rounded-xl border border-zinc-200 bg-white hover:border-zinc-300 cursor-pointer transition template-radio-label" 
+                onclick="onTemplateChange('ds_code', this)"
+              >
+                <input type="radio" name="templateChoice" value="ds_code" class="hidden" />
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-zinc-900">Data Structures (PCCSE201)</span>
+                    <span class="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-zinc-100 text-zinc-700 border border-zinc-200">Enr. + Sem</span>
+                  </div>
+                  <p class="text-[11px] text-zinc-500 mt-0.5">Faculty: Mrs. Ramneet kaur • CSE Department, IITM (Intact)</p>
+                </div>
+              </label>
+
+              <!-- OOPs Java PCCSE203 -->
+              <label 
+                class="relative flex items-center p-3 rounded-xl border border-zinc-200 bg-white hover:border-zinc-300 cursor-pointer transition template-radio-label" 
+                onclick="onTemplateChange('java_code', this)"
+              >
+                <input type="radio" name="templateChoice" value="java_code" class="hidden" />
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-zinc-900">OOPs Java (PCCSE203)</span>
+                    <span class="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-zinc-100 text-zinc-700 border border-zinc-200">Enr. + Sem</span>
+                  </div>
+                  <p class="text-[11px] text-zinc-500 mt-0.5">Faculty: Ms. Rakhi Antil • CSE Department, IITM (Intact)</p>
+                </div>
+              </label>
+
+            </div>
           </div>
 
-          <!-- Dynamic Branch (auto-wrapping) -->
-          <div 
-            id="previewBranch" 
-            class="font-serif font-bold leading-tight"
-            style="font-size: clamp(8px, 1.35vw, 12px); color: #1e3a8a;"
-          >
-            <div>B.Tech. — Computer Science and</div>
-            <div>Engineering (AIML)</div>
+          <!-- 2. Dynamic Input Fields -->
+          <div class="bg-white border border-zinc-200 rounded-2xl p-5 shadow-sm space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-zinc-100">
+              <span class="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
+                2. Student Information
+              </span>
+              <span class="text-[10px] font-mono text-zinc-400">Live Vector Sync</span>
+            </div>
+
+            <!-- Student Name -->
+            <div>
+              <label for="studentName" class="block text-xs font-medium text-zinc-700 mb-1.5">
+                Full Name <span class="text-zinc-400">(Auto Title-Cased)</span>
+              </label>
+              <input 
+                type="text" 
+                id="studentName" 
+                value="Sudhanshu Ranjan Adarsh" 
+                placeholder="e.g. Vicky Kumar, Virat Yadav, Rohit Sharma"
+                class="w-full bg-[#FAF9F5] border border-zinc-300 rounded-xl px-3.5 py-2.5 text-sm font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition"
+                oninput="handleNameInput(this.value)"
+              />
+            </div>
+
+            <!-- Branch Field (DSA Template ONLY) -->
+            <div id="branchFieldContainer">
+              <label class="block text-xs font-medium text-zinc-700 mb-1.5">
+                Branch Selector
+              </label>
+              
+              <div class="grid grid-cols-3 gap-1.5 mb-2.5">
+                <button type="button" onclick="setBranch(this)" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-zinc-900 bg-zinc-900 text-white transition text-center active-pill" data-val="B.Tech. — Computer Science and Engineering">CSE Core</button>
+                <button type="button" onclick="setBranch(this)" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300 transition text-center" data-val="B.Tech. — Computer Science and Engineering (AIML)">CSE (AIML)</button>
+                <button type="button" onclick="setBranch(this)" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300 transition text-center" data-val="B.Tech. — Computer Science and Engineering (DS)">CSE (DS)</button>
+                <button type="button" onclick="setBranch(this)" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300 transition text-center" data-val="B.Tech. — Computer Science and Engineering (IoT)">CSE (IoT)</button>
+                <button type="button" onclick="setBranch(this)" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300 transition text-center" data-val="B.Tech. — Information Technology">IT</button>
+                <button type="button" onclick="setBranch(this)" class="branch-pill text-xs font-medium py-1.5 px-2 rounded-lg border border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300 transition text-center" data-val="CUSTOM">Custom...</button>
+              </div>
+
+              <input 
+                type="text" 
+                id="branchInput" 
+                value="B.Tech. — Computer Science and Engineering" 
+                class="w-full bg-[#FAF9F5] border border-zinc-300 rounded-xl px-3.5 py-2.5 text-xs font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition"
+                oninput="handleBranchInput(this.value)"
+              />
+            </div>
+
+            <!-- Enrollment Number (For DS PCCSE201 & Java PCCSE203) -->
+            <div id="enrFieldContainer" class="hidden">
+              <label class="block text-xs font-medium text-zinc-700 mb-1.5">
+                Enrollment Number <span class="text-zinc-400">(Keeps 'Enr. No:' intact)</span>
+              </label>
+              <input 
+                type="text" 
+                id="enrInput" 
+                value="ITM2648475" 
+                placeholder="e.g. ITM2648475, ITM 2529855, ITM274643"
+                class="w-full bg-[#FAF9F5] border border-zinc-300 rounded-xl px-3.5 py-2.5 text-xs font-mono font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition"
+                oninput="handleEnrInput(this.value)"
+              />
+            </div>
+
+            <!-- Semester -->
+            <div>
+              <label class="block text-xs font-medium text-zinc-700 mb-1.5">Semester</label>
+              <input 
+                type="text" 
+                id="semInput" 
+                value="3rd Semester" 
+                class="w-full bg-[#FAF9F5] border border-zinc-300 rounded-xl px-3.5 py-2.5 text-xs font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition"
+                oninput="handleSemInput(this.value)"
+              />
+            </div>
+
+            <!-- Download CTA Button -->
+            <div class="pt-2">
+              <button 
+                id="generateBtn" 
+                onclick="generateAndDownload()" 
+                class="w-full py-3.5 px-5 rounded-xl font-medium text-sm text-white bg-zinc-900 hover:bg-zinc-800 transition active:scale-[0.99] flex items-center justify-center space-x-2 shadow-sm"
+              >
+                <svg class="w-4 h-4 text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                <span id="btnText">Download Pixel-Perfect PDF</span>
+              </button>
+            </div>
+
+            <!-- Guarantee Indicators -->
+            <div class="flex items-center justify-between text-[11px] text-zinc-500 pt-1">
+              <span class="flex items-center space-x-1.5">
+                <svg class="w-3.5 h-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Faculty & Dept Intact</span>
+              </span>
+              <span class="font-mono text-zinc-400">Press Enter ↵ to Download</span>
+            </div>
+
           </div>
 
-          <!-- Dynamic Semester -->
-          <div 
-            id="previewSem" 
-            class="font-serif text-slate-600 mt-1 leading-tight"
-            style="font-size: clamp(8px, 1.3vw, 11.5px); color: #4b5563;"
-          >
-            3rd Semester
+        </div>
+
+        <!-- Right: Real-time Vector Document Preview -->
+        <div class="lg:col-span-7 flex flex-col items-center">
+          
+          <!-- Canvas Top Bar -->
+          <div class="w-full flex items-center justify-between mb-3 px-1 text-xs text-zinc-500 font-mono">
+            <div class="flex items-center space-x-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>LIVE 60FPS VECTOR PREVIEW</span>
+            </div>
+            <div id="previewMeta">
+              A4 Standard (595.28 × 841.89 pt)
+            </div>
+          </div>
+
+          <!-- Preview Canvas Frame -->
+          <div class="relative w-full max-w-[500px] aspect-[1/1.4142] rounded-xl overflow-hidden paper-shadow bg-white border border-zinc-200 transition-all">
+            
+            <!-- Clean Background Master Image (with faculty & dept fully intact) -->
+            <img 
+              id="previewBgImage"
+              src="/assets/preview.png" 
+              alt="Front Page Template Base" 
+              class="absolute inset-0 w-full h-full object-contain pointer-events-none select-none transition-opacity duration-200"
+            />
+
+            <!-- OVERLAY 1: DSA Template (Centered at Left 14%, Top 62.5%) -->
+            <div 
+              id="dsaOverlay"
+              class="absolute text-center select-none"
+              style="left: 14%; top: 62.5%; width: 36%;"
+            >
+              <div 
+                id="dsaPreviewName" 
+                class="font-serif font-bold text-zinc-900 leading-tight tracking-normal mb-1"
+                style="font-size: clamp(10px, 1.6vw, 15px);"
+              >
+                Sudhanshu Ranjan Adarsh
+              </div>
+              <div 
+                id="dsaPreviewBranch" 
+                class="font-serif font-bold leading-tight"
+                style="font-size: clamp(8px, 1.35vw, 12px); color: #1e3a8a;"
+              >
+                <div>B.Tech. — Computer Science and</div>
+                <div>Engineering</div>
+              </div>
+              <div 
+                id="dsaPreviewSem" 
+                class="font-serif text-zinc-600 mt-1 leading-tight"
+                style="font-size: clamp(8px, 1.25vw, 11px);"
+              >
+                3rd Semester
+              </div>
+            </div>
+
+            <!-- OVERLAY 2: Code Templates (DS PCCSE201 & Java PCCSE203) -->
+            <div 
+              id="codeOverlay"
+              class="absolute select-none hidden"
+              style="left: 10%; top: 58.5%; width: 38%;"
+            >
+              <!-- Student Name -->
+              <div 
+                id="codePreviewName" 
+                class="font-serif font-bold text-center leading-tight tracking-normal"
+                style="font-size: clamp(10px, 1.6vw, 15px); color: #111827;"
+              >
+                Sudhanshu Ranjan Adarsh
+              </div>
+              
+              <!-- Enrollment Number & Semester aligned to template offsets -->
+              <div class="text-left" style="margin-top: 5.5px; padding-left: 45%;">
+                <div 
+                  id="codePreviewEnr" 
+                  class="font-serif leading-none"
+                  style="font-size: clamp(8px, 1.25vw, 11px); color: #374151;"
+                >
+                  ITM2648475
+                </div>
+                <div 
+                  id="codePreviewSem" 
+                  class="font-serif leading-none mt-2"
+                  style="font-size: clamp(8px, 1.25vw, 11px); color: #374151;"
+                >
+                  3rd Sem
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Coordinates Legend -->
+          <div class="mt-4 flex items-center space-x-4 text-xs font-mono text-zinc-400">
+            <span>Coordinate Map: X = 191.33pt</span>
+            <span>•</span>
+            <span>Redaction: True Vector Mask</span>
+            <span>•</span>
+            <span class="text-zinc-600">300 DPI Native</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 5. FEATURES / HOW IT WORKS ==================== -->
+  <section id="how-it-works" class="py-20 sm:py-24 bg-[#FAF9F5] border-b border-zinc-200/80">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-xs font-mono uppercase tracking-widest text-zinc-500 font-medium block mb-2">Technical Superiority</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-semibold text-zinc-900 tracking-tight">
+          How PenFul eliminates PDF editor headaches
+        </h2>
+        <p class="text-base text-zinc-600 mt-3 leading-relaxed">
+          Online PDF editors like Sejda and iLovePDF corrupt subsetted font dictionaries and shift columns. PenFul treats the PDF as an exact coordinate-mapped vector plane.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Feature 1 -->
+        <div class="bg-white rounded-2xl p-7 border border-zinc-200 card-hover-tactile flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-900 font-mono text-sm font-semibold mb-5">
+              01
+            </div>
+            <h3 class="font-serif text-lg font-bold text-zinc-900 mb-2">
+              Coordinate Redaction
+            </h3>
+            <p class="text-sm text-zinc-600 leading-relaxed">
+              We mask only the targeted student glyphs. The college crest, borders, and professor designations remain untouched in pristine vector fidelity.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-zinc-100 text-xs font-mono text-zinc-400">
+            Preserves Faculty & Department
+          </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="bg-white rounded-2xl p-7 border border-zinc-200 card-hover-tactile flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-900 font-mono text-sm font-semibold mb-5">
+              02
+            </div>
+            <h3 class="font-serif text-lg font-bold text-zinc-900 mb-2">
+              Dynamic Branch Reflow
+            </h3>
+            <p class="text-sm text-zinc-600 leading-relaxed">
+              Long branch names like <span class="font-mono text-xs text-zinc-800">CSE (AIML)</span> or <span class="font-mono text-xs text-zinc-800">CSE (DS)</span> wrap dynamically without overflowing into the faculty signature block.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-zinc-100 text-xs font-mono text-zinc-400">
+            No Margin Collisions
+          </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="bg-white rounded-2xl p-7 border border-zinc-200 card-hover-tactile flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-900 font-mono text-sm font-semibold mb-5">
+              03
+            </div>
+            <h3 class="font-serif text-lg font-bold text-zinc-900 mb-2">
+              One-Click Group Batching
+            </h3>
+            <p class="text-sm text-zinc-600 leading-relaxed">
+              Generate front pages for your whole lab bench in one go. Paste your friends' names and download a cleanly sorted .ZIP archive.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-zinc-100 text-xs font-mono text-zinc-400">
+            Automates the entire bench
           </div>
         </div>
 
       </div>
 
-      <div class="mt-4 flex items-center space-x-3 text-xs text-slate-500">
-        <span>Press <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[10px]">Enter</kbd> to quick-download</span>
-        <span>•</span>
-        <span>Instant client & server sync</span>
+    </div>
+  </section>
+
+  <!-- ==================== 6. GRATITUDE & SUPPORT SECTION ==================== -->
+  <section id="support" class="py-20 sm:py-24 bg-white border-b border-zinc-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      
+      <div class="w-12 h-12 rounded-2xl bg-zinc-900 text-white mx-auto flex items-center justify-center mb-6 shadow-sm">
+        <svg class="w-6 h-6 text-zinc-100" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+
+      <!-- Exact User Heading -->
+      <h2 class="font-serif text-3xl sm:text-4xl font-semibold text-zinc-900 tracking-tight mb-4">
+        Built to save our time. Fueled by your support.
+      </h2>
+
+      <!-- Exact User Copy -->
+      <p class="text-base sm:text-lg text-zinc-600 max-w-2xl mx-auto leading-relaxed mb-8">
+        “I built this tool to automate away the boring, repetitive formatting work so we can focus on actual engineering. If this saved you an hour of headaches before a submission, a follow or a star means the world to me.”
+      </p>
+
+      <!-- Action Social Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+        
+        <!-- Instagram -->
+        <a 
+          href="https://instagram.com/kumarcreator1" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="inline-flex items-center px-5 py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-900 text-sm font-medium border border-zinc-200 transition-colors"
+        >
+          <svg class="w-4 h-4 mr-2 text-zinc-700" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+          <span>Follow @kumarcreator1</span>
+        </a>
+
+        <!-- GitHub -->
+        <a 
+          href="https://github.com/vicky-kumar" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="inline-flex items-center px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-medium transition-colors"
+        >
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          <span>Star on GitHub</span>
+        </a>
+
+        <!-- Share on X -->
+        <a 
+          href="https://twitter.com/intent/tweet?text=Stop%20wasting%20hours%20on%20practical%20file%20front%20pages.%20Generated%20mine%20in%2010%20seconds%20with%20PenFul!" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="inline-flex items-center px-5 py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-900 text-sm font-medium border border-zinc-200 transition-colors"
+        >
+          <svg class="w-3.5 h-3.5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          <span>Share on X</span>
+        </a>
+
       </div>
 
     </div>
+  </section>
 
-  </main>
+  <!-- ==================== 7. FOOTER ==================== -->
+  <footer class="py-12 bg-[#FAF9F5] border-t border-zinc-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+      
+      <div>
+        <div class="flex items-center justify-center sm:justify-start space-x-2 mb-1">
+          <span class="font-serif font-bold text-lg text-zinc-900">PenFul</span>
+          <span class="text-xs text-zinc-400">• IITM Practical Suite</span>
+        </div>
+        <!-- Exact User Tagline & Credits -->
+        <p class="text-xs text-zinc-500 font-medium">
+          “Automate the boring stuff so we can build the awesome stuff.”
+        </p>
+        <p class="text-xs text-zinc-400 mt-1">
+          Developed by your fellow classmate <span class="text-zinc-800 font-medium">~Vicky Kumar</span>.
+        </p>
+      </div>
 
-  <!-- Modal: Batch Friend Mode -->
-  <div id="batchModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div class="flex items-center space-x-6 text-xs text-zinc-500">
+        <a href="#generator" class="hover:text-zinc-900 transition-colors">Generator</a>
+        <a href="#how-it-works" class="hover:text-zinc-900 transition-colors">Architecture</a>
+        <a href="#support" class="hover:text-zinc-900 transition-colors">Support</a>
+        <a href="#" class="hover:text-zinc-900 transition-colors">Back to top ↑</a>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==================== MODAL: BATCH FRIEND MODE ==================== -->
+  <div id="batchModal" class="fixed inset-0 z-50 bg-zinc-950/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white border border-zinc-200 rounded-2xl max-w-lg w-full p-6 paper-shadow space-y-4">
+      
+      <div class="flex items-center justify-between border-b border-zinc-100 pb-3">
         <div class="flex items-center space-x-2">
-          <div class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+          <div class="w-7 h-7 rounded-lg bg-zinc-100 text-zinc-800 flex items-center justify-center">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
             </svg>
           </div>
-          <h3 class="font-bold text-base text-slate-100">Batch Friend Group Generator</h3>
+          <h3 class="font-serif font-bold text-base text-zinc-900">Batch Friend Group Generator</h3>
         </div>
-        <button onclick="toggleBatchModal(false)" class="text-slate-400 hover:text-white p-1">
+        <button onclick="toggleBatchModal(false)" class="text-zinc-400 hover:text-zinc-900 p-1 rounded-lg">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
 
-      <p class="text-xs text-slate-400">
-        Going to the stationery shop? Enter your friends' names below (one per line). We'll generate a single <span class="text-indigo-400 font-semibold">.zip</span> of all your front pages ready to print together.
+      <p class="text-xs text-zinc-500 leading-relaxed">
+        Enter your friends' names (one per line). Generates a single organized <span class="font-mono text-zinc-900 font-semibold">.zip</span> of all front pages for the selected template.
       </p>
 
       <div>
-        <label class="block text-xs font-medium text-slate-300 mb-1">Batch Names List</label>
+        <label class="block text-xs font-medium text-zinc-700 mb-1">Friends' Names List</label>
         <textarea 
           id="batchNames" 
-          rows="5" 
-          class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs font-mono text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          placeholder="Vicky Kumar&#10;Rohit Sharma&#10;Virat Yadav&#10;Sudhanshu Ranjan Adarsh&#10;Aman Kumar"
+          rows="4" 
+          class="w-full bg-[#FAF9F5] border border-zinc-300 rounded-xl p-3 text-xs font-mono text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900"
+          placeholder="Vicky Kumar&#10;Rohit Sharma&#10;Virat Yadav&#10;Aman Kumar"
         >Vicky Kumar
 Rohit Sharma
-Virat Yadav
-Sudhanshu Ranjan Adarsh</textarea>
+Virat Yadav</textarea>
       </div>
 
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="block text-xs font-medium text-slate-400 mb-1">Batch Branch</label>
-          <select id="batchBranch" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200">
-            <option value="B.Tech. — Computer Science and Engineering (AIML)">CSE (AIML)</option>
-            <option value="B.Tech. — Computer Science and Engineering">CSE Core</option>
-            <option value="B.Tech. — Computer Science and Engineering (DS)">CSE (DS)</option>
-            <option value="B.Tech. — Information Technology">IT</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-medium text-slate-400 mb-1">Semester</label>
-          <input type="text" id="batchSem" value="3rd Semester" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200" />
-        </div>
+      <div id="batchBranchContainer">
+        <label class="block text-xs font-medium text-zinc-700 mb-1">Batch Branch</label>
+        <select id="batchBranch" class="w-full bg-[#FAF9F5] border border-zinc-300 rounded-xl px-3 py-2 text-xs text-zinc-900">
+          <option value="B.Tech. — Computer Science and Engineering">CSE Core</option>
+          <option value="B.Tech. — Computer Science and Engineering (AIML)">CSE (AIML)</option>
+          <option value="B.Tech. — Computer Science and Engineering (DS)">CSE (DS)</option>
+          <option value="B.Tech. — Information Technology">IT</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-medium text-zinc-700 mb-1">Semester</label>
+        <input type="text" id="batchSem" value="3rd Semester" class="w-full bg-[#FAF9F5] border border-zinc-300 rounded-xl px-3 py-2 text-xs text-zinc-900" />
       </div>
 
       <div class="pt-2 flex items-center justify-end space-x-3">
-        <button onclick="toggleBatchModal(false)" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition">Cancel</button>
-        <button onclick="downloadBatch()" id="batchSubmitBtn" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white transition flex items-center space-x-2">
+        <button onclick="toggleBatchModal(false)" class="px-4 py-2 rounded-xl text-xs font-medium text-zinc-500 hover:text-zinc-900 transition">Cancel</button>
+        <button onclick="downloadBatch()" id="batchSubmitBtn" class="px-5 py-2.5 rounded-xl text-xs font-medium bg-zinc-900 hover:bg-zinc-800 text-white transition flex items-center space-x-2 shadow-sm">
           <span>Download All (.zip)</span>
         </button>
       </div>
+
     </div>
   </div>
 
-  <!-- Client-Side Script -->
+  <!-- ==================== LOGIC / ENGINE CONNECTIONS ==================== -->
   <script>
-    // Title Case utility
+    let currentTemplate = 'dsa';
+
     function toTitleCase(str) {
       return str.replace(/\w\S*/g, function(txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
       });
     }
 
+    function onTemplateChange(key, element) {
+      currentTemplate = key;
+
+      // Update Radio UI borders
+      document.querySelectorAll('.template-radio-label').forEach(label => {
+        label.classList.remove('active-template', 'border-zinc-900', 'bg-white', 'shadow-sm');
+        label.classList.add('border-zinc-200', 'bg-white');
+      });
+      if (element) {
+        element.classList.remove('border-zinc-200');
+        element.classList.add('active-template', 'border-zinc-900', 'shadow-sm');
+      }
+
+      const bgImg = document.getElementById('previewBgImage');
+      const branchField = document.getElementById('branchFieldContainer');
+      const enrField = document.getElementById('enrFieldContainer');
+      const semInput = document.getElementById('semInput');
+      const batchBranchContainer = document.getElementById('batchBranchContainer');
+      
+      const dsaOverlay = document.getElementById('dsaOverlay');
+      const codeOverlay = document.getElementById('codeOverlay');
+
+      if (key === 'dsa') {
+        bgImg.src = '/assets/preview.png';
+        branchField.classList.remove('hidden');
+        enrField.classList.add('hidden');
+        batchBranchContainer.classList.remove('hidden');
+        semInput.value = '3rd Semester';
+
+        dsaOverlay.classList.remove('hidden');
+        codeOverlay.classList.add('hidden');
+      } else if (key === 'ds_code') {
+        bgImg.src = '/assets/preview_ds.png';
+        branchField.classList.add('hidden');
+        enrField.classList.remove('hidden');
+        batchBranchContainer.classList.add('hidden');
+        semInput.value = '3rd Sem';
+
+        dsaOverlay.classList.add('hidden');
+        codeOverlay.classList.remove('hidden');
+      } else if (key === 'java_code') {
+        bgImg.src = '/assets/preview_java.png';
+        branchField.classList.add('hidden');
+        enrField.classList.remove('hidden');
+        batchBranchContainer.classList.add('hidden');
+        semInput.value = '3rd Sem';
+
+        dsaOverlay.classList.add('hidden');
+        codeOverlay.classList.remove('hidden');
+      }
+
+      // Sync preview values
+      handleNameInput(document.getElementById('studentName').value);
+      handleSemInput(semInput.value);
+      handleEnrInput(document.getElementById('enrInput').value);
+    }
+
     function handleNameInput(val) {
       const formatted = toTitleCase(val);
-      document.getElementById('previewName').innerText = formatted || 'Your Name';
+      document.getElementById('dsaPreviewName').innerText = formatted || 'Sudhanshu Ranjan Adarsh';
+      document.getElementById('codePreviewName').innerText = formatted || 'Sudhanshu Ranjan Adarsh';
     }
 
     function handleBranchInput(val) {
@@ -371,21 +842,24 @@ Sudhanshu Ranjan Adarsh</textarea>
     }
 
     function handleSemInput(val) {
-      document.getElementById('previewSem').innerText = val || '3rd Semester';
+      document.getElementById('dsaPreviewSem').innerText = val || '3rd Semester';
+      document.getElementById('codePreviewSem').innerText = val || '3rd Sem';
     }
 
-    function setBranch(type) {
-      // Update pills UI
-      document.querySelectorAll('.branch-pill').forEach(btn => {
-        btn.classList.remove('active-pill', 'border-indigo-500/50', 'bg-indigo-500/10', 'text-indigo-300');
-        btn.classList.add('border-slate-700', 'bg-slate-950', 'text-slate-300');
+    function handleEnrInput(val) {
+      document.getElementById('codePreviewEnr').innerText = val.trim() || 'ITM2648475';
+    }
+
+    function setBranch(btn) {
+      document.querySelectorAll('.branch-pill').forEach(b => {
+        b.classList.remove('active-pill', 'border-zinc-900', 'bg-zinc-900', 'text-white');
+        b.classList.add('border-zinc-200', 'bg-white', 'text-zinc-700');
       });
 
-      const clicked = event.currentTarget;
-      clicked.classList.remove('border-slate-700', 'bg-slate-950', 'text-slate-300');
-      clicked.classList.add('active-pill', 'border-indigo-500/50', 'bg-indigo-500/10', 'text-indigo-300');
+      btn.classList.remove('border-zinc-200', 'bg-white', 'text-zinc-700');
+      btn.classList.add('active-pill', 'border-zinc-900', 'bg-zinc-900', 'text-white');
 
-      let branchVal = clicked.getAttribute('data-val');
+      let branchVal = btn.getAttribute('data-val');
       if (branchVal === 'CUSTOM') {
         const input = document.getElementById('branchInput');
         input.focus();
@@ -398,19 +872,17 @@ Sudhanshu Ranjan Adarsh</textarea>
     }
 
     function updateBranchPreview(branchText) {
-      const preview = document.getElementById('previewBranch');
+      const preview = document.getElementById('dsaPreviewBranch');
       if (!branchText) {
         preview.innerHTML = '<div>B.Tech. — Computer Science and</div><div>Engineering</div>';
         return;
       }
 
-      // Check if starts with B.Tech.
       if (branchText.includes('—') || branchText.includes('-')) {
         const parts = branchText.split(/—|-/);
         const prefix = 'B.Tech. —';
         const rest = parts.slice(1).join('—').trim();
         
-        // Split rest if contains Engineering or parenthesis
         if (rest.includes('Engineering')) {
           const engIdx = rest.indexOf('Engineering');
           const l1 = prefix + ' ' + rest.substring(0, engIdx).trim();
@@ -427,9 +899,10 @@ Sudhanshu Ranjan Adarsh</textarea>
     async function generateAndDownload() {
       const btn = document.getElementById('generateBtn');
       const btnText = document.getElementById('btnText');
-      const name = toTitleCase(document.getElementById('studentName').value.trim()) || 'Vicky Kumar';
-      const branch = document.getElementById('branchInput').value.trim() || 'B.Tech. — Computer Science and Engineering (AIML)';
-      const sem = document.getElementById('semInput').value.trim() || '3rd Semester';
+      const name = toTitleCase(document.getElementById('studentName').value.trim()) || 'Sudhanshu Ranjan Adarsh';
+      const branch = document.getElementById('branchInput').value.trim();
+      const sem = document.getElementById('semInput').value.trim();
+      const roll_no = document.getElementById('enrInput').value.trim();
 
       btn.disabled = true;
       btnText.innerText = 'Engraving Vector PDF...';
@@ -438,7 +911,13 @@ Sudhanshu Ranjan Adarsh</textarea>
         const res = await fetch('/api/generate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, branch, sem })
+          body: JSON.stringify({ 
+            name, 
+            branch, 
+            sem, 
+            roll_no, 
+            template: currentTemplate 
+          })
         });
 
         if (!res.ok) throw new Error('Generation failed');
@@ -448,17 +927,17 @@ Sudhanshu Ranjan Adarsh</textarea>
         const a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
-        a.download = `${name.replace(/\\s+/g, '_')}_DSA_FrontPage.pdf`;
+        a.download = `${name.replace(/\\s+/g, '_')}_${currentTemplate.toUpperCase()}_FrontPage.pdf`;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
         a.remove();
         
-        btnText.innerText = 'Downloaded Successfully! ✨';
+        btnText.innerText = 'Downloaded Successfully';
         setTimeout(() => {
           btnText.innerText = 'Download Pixel-Perfect PDF';
           btn.disabled = false;
-        }, 2000);
+        }, 1800);
       } catch (err) {
         alert('Error generating PDF: ' + err.message);
         btnText.innerText = 'Download Pixel-Perfect PDF';
@@ -492,7 +971,7 @@ Sudhanshu Ranjan Adarsh</textarea>
         const res = await fetch('/api/batch', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ students, sem })
+          body: JSON.stringify({ students, sem, branch, template: currentTemplate })
         });
 
         if (!res.ok) throw new Error('Batch creation failed');
@@ -501,7 +980,7 @@ Sudhanshu Ranjan Adarsh</textarea>
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'IITM_FrontPages_Batch.zip';
+        a.download = `${currentTemplate.toUpperCase()}_FrontPages_Batch.zip`;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
@@ -516,15 +995,14 @@ Sudhanshu Ranjan Adarsh</textarea>
       }
     }
 
-    // Keyboard shortcut (Enter to download)
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.target.matches('textarea, select')) {
+      if (e.key === 'Enter' && !e.target.matches('textarea, select, input')) {
         e.preventDefault();
         generateAndDownload();
       }
     });
 
-    // Initialize initial preview
+    // Initialize state
     handleNameInput(document.getElementById('studentName').value);
     updateBranchPreview(document.getElementById('branchInput').value);
   </script>
