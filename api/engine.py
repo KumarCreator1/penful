@@ -110,7 +110,6 @@ def build_pdf_dsa(
     student_name: str,
     branch_name: str,
     semester: str,
-    roll_no: str = "",
     template_path: str = TEMPLATE_MAP['dsa']['file']
 ) -> bytes:
     """Engine for Classic DSA Template (Branch-based reflow)."""
@@ -226,21 +225,6 @@ def build_pdf_dsa(
         b'(' + sem_str + b')Tj',
         b'ET'
     ])
-
-    if roll_no and roll_no.strip():
-        roll_text = f"Roll No: {roll_no.strip()}"
-        w_roll = measure_width(roll_text, FONT_REGULAR, 10.0)
-        roll_x = COLUMN_CENTER_X - (w_roll / 2.0)
-        roll_y = sem_y - 12.0
-        roll_str = encode_pdf_string(roll_text)
-        stream_cmds.extend([
-            b'BT',
-            f'1 0 0 1 {roll_x:.2f} {roll_y:.2f} Tm'.encode('latin1'),
-            b'/tiro 10.0 Tf',
-            b'.294118 .333333 .388235 RG .294118 .333333 .388235 rg',
-            b'(' + roll_str + b')Tj',
-            b'ET'
-        ])
 
     stream_cmds.append(b'Q\n')
     content37 = b'\n'.join(stream_cmds)
@@ -422,6 +406,5 @@ def build_pdf(
         return build_pdf_dsa(
             student_name=student_name,
             branch_name=branch_name,
-            semester=semester,
-            roll_no=roll_no
+            semester=semester
         )

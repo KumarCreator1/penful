@@ -902,7 +902,7 @@ Virat Yadav</textarea>
       const name = toTitleCase(document.getElementById('studentName').value.trim()) || 'Sudhanshu Ranjan Adarsh';
       const branch = document.getElementById('branchInput').value.trim();
       const sem = document.getElementById('semInput').value.trim();
-      const roll_no = document.getElementById('enrInput').value.trim();
+      const roll_no = (currentTemplate === 'dsa') ? '' : document.getElementById('enrInput').value.trim();
 
       btn.disabled = true;
       btnText.innerText = 'Engraving Vector PDF...';
